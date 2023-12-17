@@ -11,20 +11,27 @@ namespace Transportation.Persistant.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private TransportationContext _context= new TransportationContext();
+        private TransportationContext _context = new TransportationContext();
         public bool CreateUser(CreateUserModel createUserModel)
         {
             try
-
             {
-                _context.tbl_User.
+               _context.tbl_User.Add(new tbl_User
+               {
+                    FirstName = createUserModel.FirstName,
+                    LastName = createUserModel.LastName,
+                    UserName = createUserModel.UserName,
+                    Password = createUserModel.Password,
+               });
+                _context.SaveChanges();
+                
                 return true;
             }
             
             catch (Exception)
             {
 
-                throw;
+                return false;
             }
         }
 
