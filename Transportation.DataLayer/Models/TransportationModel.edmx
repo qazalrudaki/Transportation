@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TransportationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Driver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DriverName" Type="nvarchar" MaxLength="100" />
+          <Property Name="DriverFamily" Type="nvarchar" MaxLength="100" />
+          <Property Name="CarTag" Type="nvarchar" MaxLength="20" />
+          <Property Name="CarName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CarColor" Type="nvarchar" MaxLength="50" />
+          <Property Name="NationalCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDateTime" Type="datetime2" Precision="7" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="UpdateDateTime" Type="datetime2" Precision="7" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_DriverTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EnterDate" Type="datetime2" Precision="7" />
+          <Property Name="ExitDate" Type="datetime2" Precision="7" />
+          <Property Name="DriverId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDateTime" Type="datetime2" Precision="7" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="100" />
+          <Property Name="UpdateDateTime" Type="datetime2" Precision="7" />
+          <Property Name="DriverTransactionTypeId" Type="int" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_DriverTransactionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DriverTransactionTypeText" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK_tbl_DriverTransaction_tbl_Driver">
+          <End Role="tbl_Driver" Type="Self.tbl_Driver" Multiplicity="1" />
+          <End Role="tbl_DriverTransaction" Type="Self.tbl_DriverTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Driver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_DriverTransaction">
+              <PropertyRef Name="DriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DriverTransaction_tbl_DriverTransactionType">
+          <End Role="tbl_DriverTransactionType" Type="Self.tbl_DriverTransactionType" Multiplicity="1" />
+          <End Role="tbl_DriverTransaction" Type="Self.tbl_DriverTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DriverTransactionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_DriverTransaction">
+              <PropertyRef Name="DriverTransactionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TransportationModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Driver" EntityType="Self.tbl_Driver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DriverTransaction" EntityType="Self.tbl_DriverTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DriverTransactionType" EntityType="Self.tbl_DriverTransactionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_DriverTransaction_tbl_Driver" Association="Self.FK_tbl_DriverTransaction_tbl_Driver">
+            <End Role="tbl_Driver" EntitySet="tbl_Driver" />
+            <End Role="tbl_DriverTransaction" EntitySet="tbl_DriverTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DriverTransaction_tbl_DriverTransactionType" Association="Self.FK_tbl_DriverTransaction_tbl_DriverTransactionType">
+            <End Role="tbl_DriverTransactionType" EntitySet="tbl_DriverTransactionType" />
+            <End Role="tbl_DriverTransaction" EntitySet="tbl_DriverTransaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TransportationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Driver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DriverName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DriverFamily" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CarTag" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CarName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CarColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NationalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDateTime" Type="DateTime" Precision="7" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDateTime" Type="DateTime" Precision="7" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="tbl_DriverTransaction" Relationship="Self.FK_tbl_DriverTransaction_tbl_Driver" FromRole="tbl_Driver" ToRole="tbl_DriverTransaction" />
+        </EntityType>
+        <EntityType Name="tbl_DriverTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EnterDate" Type="DateTime" Precision="7" />
+          <Property Name="ExitDate" Type="DateTime" Precision="7" />
+          <Property Name="DriverId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDateTime" Type="DateTime" Precision="7" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDateTime" Type="DateTime" Precision="7" />
+          <Property Name="DriverTransactionTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <NavigationProperty Name="tbl_Driver" Relationship="Self.FK_tbl_DriverTransaction_tbl_Driver" FromRole="tbl_DriverTransaction" ToRole="tbl_Driver" />
+          <NavigationProperty Name="tbl_DriverTransactionType" Relationship="Self.FK_tbl_DriverTransaction_tbl_DriverTransactionType" FromRole="tbl_DriverTransaction" ToRole="tbl_DriverTransactionType" />
+        </EntityType>
+        <EntityType Name="tbl_DriverTransactionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DriverTransactionTypeText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_DriverTransaction" Relationship="Self.FK_tbl_DriverTransaction_tbl_DriverTransactionType" FromRole="tbl_DriverTransactionType" ToRole="tbl_DriverTransaction" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_tbl_DriverTransaction_tbl_Driver">
+          <End Role="tbl_Driver" Type="Self.tbl_Driver" Multiplicity="1" />
+          <End Role="tbl_DriverTransaction" Type="Self.tbl_DriverTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Driver">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_DriverTransaction">
+              <PropertyRef Name="DriverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DriverTransaction_tbl_DriverTransactionType">
+          <End Role="tbl_DriverTransactionType" Type="Self.tbl_DriverTransactionType" Multiplicity="1" />
+          <End Role="tbl_DriverTransaction" Type="Self.tbl_DriverTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DriverTransactionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_DriverTransaction">
+              <PropertyRef Name="DriverTransactionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TransportationContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_Driver" EntityType="Self.tbl_Driver" />
+          <EntitySet Name="tbl_DriverTransaction" EntityType="Self.tbl_DriverTransaction" />
+          <EntitySet Name="tbl_DriverTransactionType" EntityType="Self.tbl_DriverTransactionType" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" />
+          <AssociationSet Name="FK_tbl_DriverTransaction_tbl_Driver" Association="Self.FK_tbl_DriverTransaction_tbl_Driver">
+            <End Role="tbl_Driver" EntitySet="tbl_Driver" />
+            <End Role="tbl_DriverTransaction" EntitySet="tbl_DriverTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DriverTransaction_tbl_DriverTransactionType" Association="Self.FK_tbl_DriverTransaction_tbl_DriverTransactionType">
+            <End Role="tbl_DriverTransactionType" EntitySet="tbl_DriverTransactionType" />
+            <End Role="tbl_DriverTransaction" EntitySet="tbl_DriverTransaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TransportationModelStoreContainer" CdmEntityContainer="TransportationContext">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TransportationModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Driver">
+            <EntityTypeMapping TypeName="TransportationModel.tbl_Driver">
+              <MappingFragment StoreEntitySet="tbl_Driver">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DriverFamily" ColumnName="DriverFamily" />
+                <ScalarProperty Name="CarTag" ColumnName="CarTag" />
+                <ScalarProperty Name="CarName" ColumnName="CarName" />
+                <ScalarProperty Name="CarColor" ColumnName="CarColor" />
+                <ScalarProperty Name="NationalCode" ColumnName="NationalCode" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DriverTransaction">
+            <EntityTypeMapping TypeName="TransportationModel.tbl_DriverTransaction">
+              <MappingFragment StoreEntitySet="tbl_DriverTransaction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EnterDate" ColumnName="EnterDate" />
+                <ScalarProperty Name="ExitDate" ColumnName="ExitDate" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="DriverTransactionTypeId" ColumnName="DriverTransactionTypeId" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DriverTransactionType">
+            <EntityTypeMapping TypeName="TransportationModel.tbl_DriverTransactionType">
+              <MappingFragment StoreEntitySet="tbl_DriverTransactionType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DriverTransactionTypeText" ColumnName="DriverTransactionTypeText" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_User">
+            <EntityTypeMapping TypeName="TransportationModel.tbl_User">
+              <MappingFragment StoreEntitySet="tbl_User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
