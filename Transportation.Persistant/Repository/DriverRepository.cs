@@ -27,18 +27,28 @@ namespace Transportation.Persistant.Repository
                     CreatedBy = createDriverModel.CreatedBy,
                     UpdatedBy = createDriverModel.UpdatedBy,
                 });
+                _context.SaveChanges();
+                
                 return true;
             }
             catch
             {
                 return false;
             }
-            
+
         }
 
         public bool DeleteDriver(int id)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //TransportationContext _context = new TransportationContext();
+            List<DriverModel> driverModels = new List<DriverModel>();
+            var DelDriver = driverModels.FirstOrDefault(x => x.Id == id);
+            if (DelDriver != null)
+            {
+                driverModels.Remove(DelDriver);
+            }
+            return true;
         }
 
         public List<DriverModel> GetAllDrivers()
@@ -48,7 +58,22 @@ namespace Transportation.Persistant.Repository
 
         public bool UpdateDriver(UpdateDriverModel updateDriverModel)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            List<DriverModel> driverModels = new List<DriverModel>();
+            var UpdateDriverModel = driverModels.FirstOrDefault(d => d.Id == updateDriverModel.Id);
+            if (UpdateDriverModel != null)
+            {
+                UpdateDriverModel.UpdatedBy = updateDriverModel.UpdatedBy;
+                UpdateDriverModel.CreatedBy = updateDriverModel.CreatedBy;
+                UpdateDriverModel.CarColor = updateDriverModel.CarColor;
+                UpdateDriverModel.CarName = updateDriverModel.CarName;
+                UpdateDriverModel.CarTag = updateDriverModel.CarTag;
+                UpdateDriverModel.DriverFamily = updateDriverModel.DriverFamily;
+                UpdateDriverModel.DriverFamily = UpdateDriverModel.DriverFamily;
+                UpdateDriverModel.NationalCode = updateDriverModel.NationalCode;
+            }
+
+            return true;
         }
     }
 }

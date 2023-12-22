@@ -37,7 +37,14 @@ namespace Transportation.Persistant.Repository
 
         public bool DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            List<UserModel> userModels = new List<UserModel> ();
+            var DelUserModel = userModels.FirstOrDefault(u => u.Id == id);
+            if (DelUserModel != null)
+            {
+                userModels.Remove(DelUserModel);
+            }
+            return true;
         }
 
         public List<UserModel> GetAllUsers()
@@ -47,7 +54,17 @@ namespace Transportation.Persistant.Repository
 
         public bool UpdateUser(UpdateUserModel updateUserModel)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            List<UserModel> userModels = new List<UserModel>();
+            var UpdateUserModel = userModels.FirstOrDefault(s => s.Id == updateUserModel.Id);
+            if (UpdateUserModel != null)
+            {
+                UpdateUserModel.UserName = updateUserModel.UserName;
+                UpdateUserModel.LastName = updateUserModel.LastName;
+                UpdateUserModel.FirstName = updateUserModel.FirstName;
+                UpdateUserModel.Password = updateUserModel.Password;
+            }
+            return true;
         }
     }
 }

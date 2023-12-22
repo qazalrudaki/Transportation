@@ -33,7 +33,14 @@ namespace Transportation.Persistant.Repository
 
         public bool DeleteDriverTransportation(int id)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            List<DriverTransportationModel> driverTransportationModels = new List<DriverTransportationModel>();
+            var DelDriverTransportation = driverTransportationModels.FirstOrDefault(d => d.Id == id);
+            if (DelDriverTransportation != null)
+            {
+                driverTransportationModels.Remove(DelDriverTransportation);
+            }
+            return true;
         }
 
         public List<DriverTransportationModel> GetAllDriverTransportations()
@@ -43,7 +50,14 @@ namespace Transportation.Persistant.Repository
 
         public bool UpdateDriverTransportation(UpdateDriverModel updateDriverModel)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            List<DriverTransportationModel> driverTransportationModels = new List<DriverTransportationModel>();
+            var UPdateDriverTransportation = driverTransportationModels.FirstOrDefault(d => d.Id == updateDriverModel.Id);
+            if (UPdateDriverTransportation != null)
+            {
+                
+            }
+            return true;
         }
     }
 }
